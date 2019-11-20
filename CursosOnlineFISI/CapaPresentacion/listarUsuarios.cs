@@ -26,7 +26,7 @@ namespace CapaPresentacion
 
         private void listarUsuarios_Load(object sender, EventArgs e)
         {
-            DataTable dt = cls.ListadoUasuarios();
+            DataTable dt = cls.ListadoUsuarios();
             dataGridView1.DataSource = dt;
 
         }

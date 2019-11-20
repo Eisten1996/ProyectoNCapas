@@ -77,6 +77,7 @@ namespace CapaAccesoADatos
             MySqlDataAdapter da;
             try
             {
+                abrir_conexion();
                 da = new MySqlDataAdapter(NombreSP, conexion);
                 da.SelectCommand.CommandType = CommandType.StoredProcedure;
                 if (Lst != null)
@@ -92,6 +93,7 @@ namespace CapaAccesoADatos
             {
                 throw ex;
             }
+            cerrar_conexion();
 
             return dt;
         }

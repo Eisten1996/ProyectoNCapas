@@ -18,10 +18,10 @@ namespace CapaLogicaDenegocios
         public String correo { get; set; }
         public String contrasena { get; set; }
         public DateTime fechaNacimUsuario { get; set; }
-        public String sexo { get; set; }
+        public Char sexo { get; set; }
         public String telefono { get; set; }
 
-        ClsManejadorMysql clsManejador = new ClsManejadorMysql(); // Agregamos referencia de ClsManejador
+        ClsManejador clsManejador = new ClsManejador(); // Agregamos referencia de ClsManejador
 
         //Registrar Usuarios
         public string RegistrarUsuarios()
@@ -41,11 +41,11 @@ namespace CapaLogicaDenegocios
                 lst.Add(new ClsParametros("telefonoR", telefono));
 
                 //pasamos los parametros de salida
-                lst.Add(new ClsParametros("mensaje", MySqlDbType.VarChar, 40));
+                lst.Add(new ClsParametros("@mensaje", MySqlDbType.VarChar, 40));
 
                 clsManejador.Ejecutar_SP("registrarUsuario", lst);
 
-                msj = lst[10].Valor.ToString();
+                msj = lst[8].Valor.ToString();
             }
             catch (Exception ex)
             {
@@ -54,7 +54,7 @@ namespace CapaLogicaDenegocios
             return msj;
         }
 
-        public DataTable ListadoUasuarios()
+        public DataTable ListadoUsuarios()
         {
             return clsManejador.Listado("listarUsuario",null);
         }

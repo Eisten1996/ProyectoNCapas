@@ -46,7 +46,7 @@ namespace CapaPresentacion
                 cls.contrasena = text_Contrasena.Text;
                 cls.telefono = text_telefono.Text;
                 cls.fechaNacimUsuario = dateTimePicker1.Value;
-                cls.sexo = radioMasculino.Checked == true ? "M" :"F";
+                cls.sexo = radioMasculino.Checked == true ? 'M' :'F';
 
                 msj = cls.RegistrarUsuarios();
                 MessageBox.Show(msj);
