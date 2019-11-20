@@ -1,0 +1,11 @@
+D:\Desarrollo\ProyectoNCapas\CursosOnlineFISI\CapaAccesoADatos\bin\Debug\CapaAccesoADatos.dll
+D:\Desarrollo\ProyectoNCapas\CursosOnlineFISI\CapaAccesoADatos\bin\Debug\CapaAccesoADatos.pdb
+D:\Desarrollo\ProyectoNCapas\CursosOnlineFISI\CapaAccesoADatos\bin\Debug\MySql.Data.dll
+D:\Desarrollo\ProyectoNCapas\CursosOnlineFISI\CapaAccesoADatos\bin\Debug\Google.Protobuf.dll
+D:\Desarrollo\ProyectoNCapas\CursosOnlineFISI\CapaAccesoADatos\bin\Debug\BouncyCastle.Crypto.dll
+D:\Desarrollo\ProyectoNCapas\CursosOnlineFISI\CapaAccesoADatos\bin\Debug\Renci.SshNet.dll
+D:\Desarrollo\ProyectoNCapas\CursosOnlineFISI\CapaAccesoADatos\bin\Debug\MySql.Data.xml
+D:\Desarrollo\ProyectoNCapas\CursosOnlineFISI\CapaAccesoADatos\obj\Debug\CapaAccesoADatos.csproj.CoreCompileInputs.cache
+D:\Desarrollo\ProyectoNCapas\CursosOnlineFISI\CapaAccesoADatos\obj\Debug\CapaAccesoADatos.csproj.CopyComplete
+D:\Desarrollo\ProyectoNCapas\CursosOnlineFISI\CapaAccesoADatos\obj\Debug\CapaAccesoADatos.dll
+D:\Desarrollo\ProyectoNCapas\CursosOnlineFISI\CapaAccesoADatos\obj\Debug\CapaAccesoADatos.pdb

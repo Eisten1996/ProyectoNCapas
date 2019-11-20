@@ -1,0 +1,173 @@
+create database cursosOnlineFisi;
+
+use cursosonlinefisi;
+
+-- -----------------------------------------------------
+-- Table usuario
+-- -----------------------------------------------------
+create table usuario(
+	dni VARCHAR(8) primary key,
+	nombresUsuario VARCHAR(45) NOT NULL,
+	apellidosUsuario VARCHAR(45) NOT NULL,
+	correo VARCHAR(45) NOT NULL,
+	contrasena VARCHAR(45) NOT NULL,
+	fechaNacimUsuario DATE NOT NULL,
+    sexo char(1) not null check(sexo in ('M','F')),
+	telefono VARCHAR(10) NULL
+);
+
+-- -----------------------------------------------------
+-- Table Alumno
+-- -----------------------------------------------------
+CREATE TABLE Alumno (
+  codAlumno int primary key auto_increment ,
+  dni VARCHAR(8) NOT NULL,
+  CONSTRAINT fk_Alumno_usuario FOREIGN KEY (dni) REFERENCES usuario (dni)
+);
+
+alter table alumno auto_increment=16200000;
+
+-- -----------------------------------------------------
+-- Table profesor
+-- -----------------------------------------------------
+CREATE TABLE profesor (
+  codProfesor int primary key auto_increment,
+  dni VARCHAR(8) NOT NULL,
+  CONSTRAINT fk_profesor_usuario1 FOREIGN KEY (dni) REFERENCES usuario (dni)
+  );
+  
+  alter table profesor auto_increment=210000;
+  
+-- -----------------------------------------------------
+-- Table curso
+-- -----------------------------------------------------
+CREATE TABLE curso (
+  idCurso VARCHAR(8) primary key,
+  nombreCurso VARCHAR(45) NOT NULL,
+  descripcionCurso VARCHAR(45) NOT NULL
+  );
+
+
+-- -----------------------------------------------------
+-- Table Curso-Profesor
+-- -----------------------------------------------------
+CREATE TABLE CursoProfesor (
+  codProfesor int(8) NOT NULL,
+  idCurso VARCHAR(8) NOT NULL,
+  PRIMARY KEY (codProfesor, idCurso),
+  CONSTRAINT fk_CursoProfesor_profesor1 FOREIGN KEY (codProfesor) REFERENCES profesor (codProfesor),
+  CONSTRAINT fk_CursoProfesor_curso1 FOREIGN KEY (idCurso) REFERENCES curso (idCurso)
+);
+
+-- -----------------------------------------------------
+-- Table Curso-Alumno
+-- -----------------------------------------------------
+CREATE TABLE CursoAlumno (
+  idCurso VARCHAR(8) NOT NULL,
+  codAlumno int NOT NULL,
+  PRIMARY KEY (idCurso, codAlumno),
+  CONSTRAINT fk_CursoAlumno_curso1 FOREIGN KEY (idCurso) REFERENCES curso (idCurso),
+  CONSTRAINT fk_CursoAlumno_Alumno1 FOREIGN KEY (codAlumno) REFERENCES Alumno (codAlumno)
+);
+
+-- -----------------------------------------------------
+-- Table Tema
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS Tema (
+  idTema varchar(8) primary key,
+  nombreTema VARCHAR(45) NOT NULL,
+  descripcionTema VARCHAR(45) NOT NULL,
+  duracionTema VARCHAR(45) NOT NULL,
+  idCurso VARCHAR(8) NOT NULL,
+  CONSTRAINT fk_Tema_curso1 FOREIGN KEY (idCurso) REFERENCES curso (idCurso)
+);
+
+-- -----------------------------------------------------
+-- Table aministrador
+-- -----------------------------------------------------
+CREATE TABLE  aministrador (
+  idAministrador int primary key auto_increment,
+  dni VARCHAR(8) NOT NULL,
+  CONSTRAINT fk_aministrador_usuario1 FOREIGN KEY (dni) REFERENCES usuario (dni)
+);
+
+delimiter //
+CREATE PROCEDURE registrarUsuario (
+	in dniR VARCHAR(8) ,
+	in nombresUsuarioR VARCHAR(45),
+	in apellidosUsuarioR VARCHAR(45) ,
+	in correoR VARCHAR(45) ,
+	in contrasenaR VARCHAR(45) ,
+	in fechaNacimUsuarioR DATE ,
+    in sexoR char(1),
+	in telefonoR VARCHAR(10),
+    out mensaje varchar(40) 
+)
+	BEGIN
+		if exists (select * from usuario where dniR=dni) then
+			set mensaje='Este dni ya existe';
+		else
+			insert usuario values (dniR,nombresUsuarioR,apellidosUsuarioR,correoR,md5(contrasenaR),fechaNacimUsuarioR,sexoR,telefonoR);
+            set mensaje = 'se registro satisfactoriamente';
+        end if;
+		
+	END
+//
+delimiter ;
+
+
+delimiter //
+CREATE PROCEDURE registrarAlumno (
+	in dniR VARCHAR(8) ,
+    out mensaje varchar(40) 
+)
+	BEGIN
+		if exists (select * from alumno where dniR=dni) then
+			set mensaje='Este alumno ya existe';
+		else
+			insert alumno(dni) values (dniR);
+			set mensaje = 'se registro satisfactoriamente';
+        end if;
+	END
+//
+delimiter ;
+
+delimiter //
+CREATE PROCEDURE registrarProfesor (
+	in dniR VARCHAR(8) ,
+    out mensaje varchar(40) 
+)
+	BEGIN
+		if exists (select * from profesor where dniR=dni) then
+			set mensaje='Este profesor ya existe';
+		else
+			insert profesor(dni) values (dniR);
+			set mensaje = 'se registro satisfactoriamente';
+        end if;
+	END
+//
+delimiter ;
+
+delimiter //
+CREATE PROCEDURE registrarAdministrador (
+	in dniR VARCHAR(8) ,
+    out mensaje varchar(40) 
+)
+	BEGIN
+		if exists (select * from aministrador where dniR=dni) then
+			set mensaje='Este administrador ya existe';
+		else
+			insert aministrador(dni) values (dniR);
+			set mensaje = 'se registro satisfactoriamente';
+        end if;
+	END
+//
+delimiter ;
+
+delimiter //
+CREATE PROCEDURE listarUsuario ()
+	BEGIN
+		select * from usuario;
+	END
+//
+delimiter ;
