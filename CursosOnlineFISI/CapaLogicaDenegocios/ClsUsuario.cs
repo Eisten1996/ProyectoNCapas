@@ -21,7 +21,7 @@ namespace CapaLogicaDenegocios
         public String sexo { get; set; }
         public String telefono { get; set; }
 
-        ClsManejador clsManejador = new ClsManejador(); // Agregamos referencia de ClsManejador
+        ClsManejadorMysql clsManejador = new ClsManejadorMysql(); // Agregamos referencia de ClsManejador
 
         //Registrar Usuarios
         public string RegistrarUsuarios()

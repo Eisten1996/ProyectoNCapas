@@ -1,75 +1,84 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
-using System.Data;
 
 namespace CapaAccesoADatos
 {
-    public class ClsManejador
+    public class ClsManejadorMysql
     {
-        MySqlConnection conexion = new MySqlConnection("Database=cursosonlinefisi;Data Source=localhost;User Id=root;Password=");
-        // metodo para abrir conexion
+        string servidor = "localhost";//qui va el nombre de Tu servidor
+        string puerto = "3360";//el puerto por el cual te conectaras
+        string usuario = "root";//Tu usuario de la bd
+        string contrasegna = "";//tu contrasegna
+        string miBD = "cursosonlinefisi";//nombre de tu bd
+        string datos = "";
 
+        string cadenaConeccion = "";
+        MySqlConnection conexion;
         void abrir_conexion()
         {
-            if (conexion.State == ConnectionState.Closed)
+            cadenaConeccion = "server=" + servidor + "; port=" + puerto + "; user id=" + usuario + "; password=" + contrasegna + "; database=" + miBD + ";";
+            conexion = new MySqlConnection(cadenaConeccion);
+            if (conexion.State ==System.Data.ConnectionState.Closed)
             {
                 conexion.Open();
+                
             }
         }
-        // metodo para cerrar conexion
-
         void cerrar_conexion()
         {
-            if (conexion.State == ConnectionState.Open)
+            if (conexion.State == System.Data.ConnectionState.Open)
             {
                 conexion.Close();
             }
         }
-
-        // metodos para ejecutar sp(insert, delete , update)
-        public void Ejecutar_SP(String NombreSP,List<ClsParametros> Lst)
+        public void Ejecutar_SP(String NombreSP, List<ClsParametros> Lst)
         {
             MySqlCommand cmd;
             try
             {
                 abrir_conexion();
+                //MySqlDataReader lector = null;
                 cmd = new MySqlCommand(NombreSP, conexion);
-                cmd.CommandType = CommandType.StoredProcedure;
+                /*lector = cmd.ExecuteReader();
+                while (lector.Read())
+                {
+                    datos += lector.GetString(0) + "\n";
+                }*/
                 if (Lst != null)
                 {
-                    for(int i = 0; i < Lst.Count; i++)
+                    for (int i = 0; i < Lst.Count; i++)
                     {
-                        if(Lst[i].Direccion == ParameterDirection.Input)
+                        if (Lst[i].Direccion == ParameterDirection.Input)
                         {
                             cmd.Parameters.AddWithValue(Lst[i].Nombre, Lst[i].Valor);
                         }
                         if (Lst[i].Direccion == ParameterDirection.Output)
                         {
-                            cmd.Parameters.Add(Lst[i].Nombre,Lst[i].TipoDato,Lst[i].Tamano).Direction = ParameterDirection.Output;
+                            cmd.Parameters.Add(Lst[i].Nombre, Lst[i].TipoDato, Lst[i].Tamano).Direction = ParameterDirection.Output;
                         }
                     }
                     cmd.ExecuteNonQuery();
                     // recuperar parametros de salida
                     for (int i = 0; i < Lst.Count; i++)
                     {
-                        if(cmd.Parameters[i].Direction == ParameterDirection.Output)
+                        if (cmd.Parameters[i].Direction == ParameterDirection.Output)
                         {
                             Lst[i].Valor = cmd.Parameters[i].Value.ToString();
                         }
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
             cerrar_conexion();
         }
-
         // metodos para los listados o consultas(select)
         public DataTable Listado(String NombreSP, List<ClsParametros> Lst)
         {
